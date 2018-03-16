@@ -1,0 +1,26 @@
+{
+  "name": "wanAndroid",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start --transformer node_modules/react-native-typescript-transformer/index.js --sourceExts ts,tsx",
+    "test": "jest"
+  },
+  "dependencies": {
+    "react": "^16.3.0-alpha.1",
+    "react-native": "0.54.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.0.40",
+    "@types/react-native": "^0.52.18",
+    "babel-jest": "23.0.0-alpha.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "23.0.0-alpha.0",
+    "react-native-typescript-transformer": "^1.2.3",
+    "react-test-renderer": "^16.3.0-alpha.1",
+    "typescript": "^2.7.2"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
