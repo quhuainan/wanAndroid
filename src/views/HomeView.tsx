@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
     },
   });
 
-export default class HomeScene extends React.Component<any, any> {
+export default class HomeView extends React.Component<any, any> {
     render() {
       return (
         <View style={styles.container}>
           <Text style={styles.welcome}>
-            React Native with TypeScript !
+            主页
           </Text>
         </View>
       );

@@ -1,1 +1,1 @@
-export { default } from './src/HomeScene';
+export { default } from './src/RootScene';
