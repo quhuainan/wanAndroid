@@ -1,25 +1,56 @@
-import { View } from 'react-native'
-import * as React from 'react'
-import { StackNavigator, TabNavigator, TabBarBottom, NavigationScreenConfig } from 'react-navigation'
-import HomeView from './views/HomeView';
-import KonwSystemView from './views/KonwSystemView';
-
+import { View } from "react-native";
+import * as React from "react";
+import {
+  StackNavigator,
+  TabNavigator,
+  TabBarBottom,
+  NavigationScreenConfig
+} from "react-navigation";
+import TabItem from "./uiComponent/TabItem";
+import Color from "./res/Color";
+import { HomeView } from "./views/Home";
+import { KnowSystemView } from "./views/knowSystem";
 
 export default class RootView extends React.Component {
-    render() {
-        return <Navigator />
-    }
+  render() {
+    return <Navigator />;
+  }
 }
 
-
-const Tab = TabNavigator({
+const Tab = TabNavigator(
+  {
     HomeView: {
-        screen: HomeView,
+      screen: HomeView,
+      navigationOptions: {
+        tabBarLabel: "首页",
+        tabBarIcon: ({ focused, tintColor }: any) => {
+          return <TabItem focused={focused} icon="home" />;
+        }
+      }
     },
-    KonwSystem: {
-        screen: KonwSystemView,
-    },
-})
+    KnowSystem: {
+      screen: KnowSystemView,
+      navigationOptions: {
+        tabBarLabel: "知识体系",
+        tabBarIcon: ({ focused, tintColor }: any) => {
+          return <TabItem focused={focused} icon="widgets" />;
+        }
+      }
+    }
+  },
+  {
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: "bottom",
+    lazy: true,
+    animationEnabled: false,
+    swipeEnabled: false,
+    tabBarOptions: {
+      activeTintColor: Color.primary,
+      inactiveBackgroundColor: Color.background,
+      style: { backgroundColor: Color.white }
+    }
+  }
+);
 const Navigator = StackNavigator({
-    Tab: { screen: Tab }
-})
+  Tab: { screen: Tab }
+});
