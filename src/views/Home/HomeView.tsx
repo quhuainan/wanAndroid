@@ -73,6 +73,10 @@ export default class HomeView extends React.Component<any, State> {
     };
   }
 
+  componentDidMount(){
+    this.initdata()
+  }
+
   initdata = () => {
     this.getBannerData();
     this.getArticalList();

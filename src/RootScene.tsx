@@ -9,7 +9,7 @@ import {
 import TabItem from "./uiComponent/TabItem";
 import Color from "./res/Color";
 import { HomeView } from "./views/Home";
-import { KnowSystemView } from "./views/knowSystem";
+import KnowSystemView from "./views/Know/KnowSystemView";
 
 export default class RootView extends React.Component {
   render() {

@@ -5,5 +5,6 @@ export default {
   paper: "#f3f3f3",
   gray: "#979797",
   white: "#ffffff",
-  background:'#F7F7FA'
+  background:'#F7F7FA',
+  black:'#000'
 };
