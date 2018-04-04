@@ -6,7 +6,7 @@ import DimenUtlis from "../utlis/DimenUtlis";
 import moment from "moment";
 import Icon from "react-native-vector-icons/MaterialIcons";
 interface Props {
-  data: ArticalListBean;
+  data?: ArticalListBean;
 }
 
 export class ArticalListBean {
@@ -41,8 +41,10 @@ export default class ArticalListItem extends React.Component<Props> {
     return diff > 2 ? normalTime : relativeTime;
   };
   render() {
-    let data: ArticalListBean = this.props.data;
-
+    let data = this.props.data;
+    if (data === undefined) {
+      return
+    }
     return (
       <View
         style={{

@@ -10,6 +10,7 @@ import TabItem from "./uiComponent/TabItem";
 import Color from "./res/Color";
 import { HomeView } from "./views/Home";
 import KnowSystemView from "./views/Know/KnowSystemView";
+import TopicView from "./views/Topic/TopicView";
 
 export default class RootView extends React.Component {
   render() {
@@ -52,5 +53,6 @@ const Tab = TabNavigator(
   }
 );
 const Navigator = StackNavigator({
-  Tab: { screen: Tab }
+  Tab: { screen: Tab },
+  Topic: { screen: TopicView }
 });
