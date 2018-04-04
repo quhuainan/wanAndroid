@@ -63,8 +63,10 @@ export default class HomeView extends React.Component<any, State> {
     ),
     headerStyle: { backgroundColor: Color.primary }
   });
+
   constructor(props: any) {
     super(props);
+    console.log("props Home", props);
     this.state = {
       bannerData: [],
       listData: [],
@@ -73,8 +75,8 @@ export default class HomeView extends React.Component<any, State> {
     };
   }
 
-  componentDidMount(){
-    this.initdata()
+  componentDidMount() {
+    this.initdata();
   }
 
   initdata = () => {
@@ -97,7 +99,7 @@ export default class HomeView extends React.Component<any, State> {
         this.state.pageNum == 0
           ? RefreshState.HeaderRefreshing
           : RefreshState.FooterRefreshing
-    })
+    });
 
     try {
       let response = await fetch(getHomeArticalList(this.state.pageNum));
@@ -113,8 +115,22 @@ export default class HomeView extends React.Component<any, State> {
       this.setState({ listData: [], resfreshState: RefreshState.Failure });
     }
   };
+
+  startDetailsView = (data: ArticalListBean) => {
+    this.props.navigation.navigate("ArticalDetails", {
+      link: data.link,
+      title: data.title
+    });
+  };
   renderItem({ item }: any): any {
-    return <ArticalListItem data={item} />;
+    return (
+      <ArticalListItem
+        data={item}
+        clickItem={(data: ArticalListBean) => {
+          this.startDetailsView(data);
+        }}
+      />
+    );
   }
   renderHeader = () => {
     return (
@@ -153,7 +169,7 @@ export default class HomeView extends React.Component<any, State> {
           keyExtractor={item => {
             return item.id;
           }}
-          renderItem={this.renderItem}
+          renderItem={this.renderItem.bind(this)}
         />
       </View>
     );

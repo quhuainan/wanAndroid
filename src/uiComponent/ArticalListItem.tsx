@@ -6,7 +6,8 @@ import DimenUtlis from "../utlis/DimenUtlis";
 import moment from "moment";
 import Icon from "react-native-vector-icons/MaterialIcons";
 interface Props {
-  data?: ArticalListBean;
+  data: ArticalListBean;
+  clickItem: Function;
 }
 
 export class ArticalListBean {
@@ -20,7 +21,7 @@ export class ArticalListBean {
   envelopePic: string | null = null;
   fresh: boolean | null = null;
   id: number | null = null;
-  link: string | null = null;
+  link: string = "";
   niceDate: string | null = null;
   origin: string | null = null;
   projectLink: string | null = null;
@@ -28,12 +29,12 @@ export class ArticalListBean {
   superChapterId: number | null = null;
   superChapterName: string | null = null;
   tags: any[] | null = null;
-  title: string | null = null;
+  title: string = "";
   type: number | null = null;
   visible: number | null = null;
   zan: number | null = null;
 }
-export default class ArticalListItem extends React.Component<Props> {
+export default class ArticalListItem extends React.Component<Props, any> {
   getRelativeTime = (time: number): string => {
     let normalTime = moment(time).format("YYYY-MM-DD");
     let relativeTime = moment(normalTime, "YYYY-MM-DD").fromNow();
@@ -43,59 +44,63 @@ export default class ArticalListItem extends React.Component<Props> {
   render() {
     let data = this.props.data;
     if (data === undefined) {
-      return
+      data = new ArticalListBean();
     }
     return (
-      <View
-        style={{
-          margin: 8,
-          backgroundColor: Color.white
-        }}
-      >
+      <TouchableOpacity onPress={() => {this.props.clickItem(data)}}>
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 8
+            margin: 8,
+            backgroundColor: Color.white
           }}
         >
-          <Image
-            style={{ height: 24, width: 24, borderRadius: 12 }}
-            source={{
-              uri: "http://www.qqju.com/pic/tx/tx23282_2.jpg"
-            }}
-          />
-          <Heading3 style={{ marginLeft: 8, flex: 1, textAlign: "justify" }}>
-            {data.author}
-          </Heading3>
-          <Heading3>{this.getRelativeTime(data.publishTime)}</Heading3>
-        </View>
-        <Heading2 style={{ color: "#000", padding: 8 }}>{data.title}</Heading2>
-        <View
-          style={{
-            flexDirection: "row",
-            padding: 8,
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Heading2 style={{ color: Color.primary, flex: 1 }}>
-            {data.superChapterName}
-          </Heading2>
-          <TouchableOpacity
-            onPress={() => {
-              Alert.alert("点击收藏");
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 8
             }}
           >
-            <Icon
-              name={data.collect ? "favorite" : "favorite-border"}
-              size={24} //图片大小
-              color={data.collect ? Color.primary : Color.gray}
+            <Image
+              style={{ height: 24, width: 24, borderRadius: 12 }}
+              source={{
+                uri: "http://www.qqju.com/pic/tx/tx23282_2.jpg"
+              }}
             />
-          </TouchableOpacity>
+            <Heading3 style={{ marginLeft: 8, flex: 1, textAlign: "justify" }}>
+              {data.author}
+            </Heading3>
+            <Heading3>{this.getRelativeTime(data.publishTime)}</Heading3>
+          </View>
+          <Heading2 style={{ color: "#000", padding: 8 }}>
+            {data.title}
+          </Heading2>
+          <View
+            style={{
+              flexDirection: "row",
+              padding: 8,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Heading2 style={{ color: Color.primary, flex: 1 }}>
+              {data.superChapterName}
+            </Heading2>
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert("点击收藏");
+              }}
+            >
+              <Icon
+                name={data.collect ? "favorite" : "favorite-border"}
+                size={24} //图片大小
+                color={data.collect ? Color.primary : Color.gray}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

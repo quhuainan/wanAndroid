@@ -16,7 +16,7 @@ interface State {
   pageNum: 1;
   pageSize: 20;
 }
-export default class TopicList extends React.Component<Props, State> {
+export default class TopicList extends React.Component<any, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -34,7 +34,7 @@ export default class TopicList extends React.Component<Props, State> {
   refreshData = async (id: number) => {
     try {
       this.setState({
-          listStatus:RefreshState.HeaderRefreshing
+        listStatus: RefreshState.HeaderRefreshing
       });
       let response = await fetch(getKnowSystemArticalList(id));
       let json = await response.json();
@@ -42,17 +42,27 @@ export default class TopicList extends React.Component<Props, State> {
         data: json.data.datas
       });
       this.setState({
-        listStatus:RefreshState.Idle
-    });
+        listStatus: RefreshState.Idle
+      });
     } catch (error) {
       console.log("请求出错", error);
       this.setState({
-        listStatus:RefreshState.Failure
-    });
+        listStatus: RefreshState.Failure
+      });
     }
   };
   renderItem = ({ item }: any) => {
-    return <ArticalListItem data={item} />;
+    return (
+      <ArticalListItem
+        data={item}
+        clickItem={(data: ArticalListBean) => {
+          this.props.navigation.navigate("ArticalDetails", {
+            link: data.link,
+            title: data.title
+          });
+        }}
+      />
+    );
   };
   render() {
     return (
@@ -61,6 +71,9 @@ export default class TopicList extends React.Component<Props, State> {
         refreshState={this.state.listStatus}
         onHeaderRefresh={() => {
           this.refreshData(this.props.id);
+        }}
+        keyExtractor={item => {
+          return item.id;
         }}
         renderItem={this.renderItem}
       />

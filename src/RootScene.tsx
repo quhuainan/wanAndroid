@@ -11,6 +11,7 @@ import Color from "./res/Color";
 import { HomeView } from "./views/Home";
 import KnowSystemView from "./views/Know/KnowSystemView";
 import TopicView from "./views/Topic/TopicView";
+import ArticalDetailsView from "./views/ArticalDetailsView";
 
 export default class RootView extends React.Component {
   render() {
@@ -54,5 +55,6 @@ const Tab = TabNavigator(
 );
 const Navigator = StackNavigator({
   Tab: { screen: Tab },
-  Topic: { screen: TopicView }
+  Topic: { screen: TopicView },
+  ArticalDetails:{screen:ArticalDetailsView}
 });
