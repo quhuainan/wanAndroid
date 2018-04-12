@@ -12,6 +12,7 @@ import { HomeView } from "./views/Home";
 import KnowSystemView from "./views/Know/KnowSystemView";
 import TopicView from "./views/Topic/TopicView";
 import ArticalDetailsView from "./views/ArticalDetailsView";
+import HotTagView from "./views/HotTagView";
 
 export default class RootView extends React.Component {
   render() {
@@ -56,5 +57,6 @@ const Tab = TabNavigator(
 const Navigator = StackNavigator({
   Tab: { screen: Tab },
   Topic: { screen: TopicView },
-  ArticalDetails:{screen:ArticalDetailsView}
+  ArticalDetails: { screen: ArticalDetailsView },
+  HotTag: { screen: HotTagView }
 });

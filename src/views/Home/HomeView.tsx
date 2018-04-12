@@ -20,7 +20,6 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import RefreshListView, {
   RefreshState
 } from "../../uiComponent/RefreshListView";
-
 interface State {
   bannerData: BannerBean[];
   listData: ArticalListBean[];
@@ -46,7 +45,7 @@ export default class HomeView extends React.Component<any, State> {
         <TouchableOpacity
           style={styles.toolbarStyle}
           onPress={() => {
-            Alert.alert("点击最火标签");
+            navigation.navigate("HotTag");
           }}
         >
           <Icon color={Color.white} name="menu" size={24} />
@@ -94,14 +93,20 @@ export default class HomeView extends React.Component<any, State> {
   };
 
   getArticalList = async () => {
-    this.setState({
+     this.setState({
       resfreshState:
         this.state.pageNum == 0
           ? RefreshState.HeaderRefreshing
           : RefreshState.FooterRefreshing
-    });
+    }); 
 
     try {
+      this.setState({
+        resfreshState:
+          this.state.pageNum == 0
+            ? RefreshState.HeaderRefreshing
+            : RefreshState.FooterRefreshing
+      });
       let response = await fetch(getHomeArticalList(this.state.pageNum));
       let json: any = await response.json();
       this.setState({

@@ -69,13 +69,22 @@ export default class TopicView extends React.Component<Props, State> {
     };
   }
 
-  
   render() {
     let views = this.props.navigation.state.params.tabItem.map(
       (item: TabItemBean) => {
+        console.log("aa", this.props.navigation.state.params.tabItem);
+
         return (
-          <View tabLabel={item.name}>
-            <TopicList id={item.id}/>
+          <View tabLabel={item.name} key={item.id}>
+            <TopicList
+              id={item.id}
+              clickItem={(data: ArticalListBean) => {
+                this.props.navigation.navigate("ArticalDetails", {
+                  link: data.link,
+                  title: data.title
+                });
+              }}
+            />
           </View>
         );
       }

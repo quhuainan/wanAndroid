@@ -9,6 +9,7 @@ import { getKnowSystemArticalList } from "../Api";
 
 interface Props {
   id: number;
+  clickItem:Function
 }
 interface State {
   data: ArticalListBean[];
@@ -56,10 +57,7 @@ export default class TopicList extends React.Component<any, State> {
       <ArticalListItem
         data={item}
         clickItem={(data: ArticalListBean) => {
-          this.props.navigation.navigate("ArticalDetails", {
-            link: data.link,
-            title: data.title
-          });
+          this.props.clickItem(data)
         }}
       />
     );
