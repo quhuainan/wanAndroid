@@ -74,11 +74,22 @@ export default class HotTagView extends React.Component<any, State> {
           <Heading2 style={styles.tagHeader} color={Color.black}>
             大家都在搜
           </Heading2>
-          <TagView data={this.state.hotTag} clickItem={(data: TagBean) => {
-            this.props.navigation.navigate('Topic',{tabItem:[new TabItemBean(data.id,data.name),new TabItemBean(data.id,data.name)],title:data.name})
-          }} />
+          <TagView
+            data={this.state.hotTag}
+            clickItem={(data: TagBean) => {
+              this.props.navigation.navigate("ArticalList", { key: data.name });
+            }}
+          />
           <Heading2 style={styles.tagHeader}>常用网站</Heading2>
-          <TagView data={this.state.comNet} />
+          <TagView
+            data={this.state.comNet}
+            clickItem={(data: TagBean) => {
+              this.props.navigation.navigate("ArticalDetails", {
+                link: data.link,
+                title: data.name
+              });
+            }}
+          />
         </View>
       </ScrollView>
     );
