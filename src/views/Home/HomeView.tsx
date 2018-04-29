@@ -53,7 +53,7 @@ export default class HomeView extends React.Component<any, State> {
         <TouchableOpacity
           style={styles.toolbarStyle}
           onPress={() => {
-            Alert.alert("点击搜索");
+            navigation.navigate("SearchList");
           }}
         >
           <Icon color={Color.white} name="search" size={24} />
@@ -93,12 +93,12 @@ export default class HomeView extends React.Component<any, State> {
   };
 
   getArticalList = async () => {
-     this.setState({
+    this.setState({
       resfreshState:
         this.state.pageNum == 0
           ? RefreshState.HeaderRefreshing
           : RefreshState.FooterRefreshing
-    }); 
+    });
 
     try {
       this.setState({

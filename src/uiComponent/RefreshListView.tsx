@@ -15,7 +15,7 @@ const log = (text: string) => { DEBUG && console.log(text) }
 
 interface Props extends FlatListProperties<any> {
     refreshState: number,
-    onHeaderRefresh: Function,
+    onHeaderRefresh?: Function,
     onFooterRefresh?: Function,
     data: Array<any>,
     footerContainerStyle?: any,
@@ -37,7 +37,7 @@ class RefreshListView extends React.Component<Props> {
     }
 
     onHeaderRefresh = () => {
-        if (this.shouldStartHeaderRefreshing()) {
+        if (this.shouldStartHeaderRefreshing()&&this.props.onHeaderRefresh) {
             this.props.onHeaderRefresh(RefreshState.HeaderRefreshing)
         }
     }

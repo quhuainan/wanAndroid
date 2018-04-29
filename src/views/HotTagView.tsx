@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.white,
     borderBottomWidth: 1,
     borderBottomColor: Color.gray,
-    margin: 8
+    padding: 8
   }
 });
 interface State {

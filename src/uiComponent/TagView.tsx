@@ -30,7 +30,9 @@ export default class TagView extends React.Component<Props> {
           let red = Math.floor(Math.random() * 100);
           let yellow = Math.floor(Math.random() * 100);
           let blue = Math.floor(Math.random() * 100);
-          let color = `#${red<10?10:red}${yellow<10?11:yellow}${blue<10?12:blue}`;
+          let color = `#${red < 10 ? 10 : red}${yellow < 10 ? 11 : yellow}${
+            blue < 10 ? 12 : blue
+          }`;
           console.log("颜色", color);
           return (
             <TouchableOpacity
@@ -39,18 +41,20 @@ export default class TagView extends React.Component<Props> {
                   this.props.clickItem(item);
                 }
               }}
+              style={{
+                borderRadius: 16,
+                borderWidth: DimenUtlis.onePixel,
+                backgroundColor: "white",
+                margin: 8,
+              }}
               key={item.id}
             >
               <Text
                 style={{
-                  borderRadius: 16,
-                  borderWidth: DimenUtlis.onePixel,
-                  backgroundColor: "white",
                   padding: 8,
-                  margin: 8,
+                  
                   color: color
                 }}
-                
               >
                 {item.name}
               </Text>

@@ -14,6 +14,7 @@ import TopicView from "./views/Topic/TopicView";
 import ArticalDetailsView from "./views/ArticalDetailsView";
 import HotTagView from "./views/HotTagView";
 import ArticalListView from "./views/ArticalList/ArticalListView";
+import SearchListView from "./views/SearchListView";
 
 export default class RootView extends React.Component {
   render() {
@@ -60,5 +61,6 @@ const Navigator = StackNavigator({
   Topic: { screen: TopicView },
   ArticalList: { screen: ArticalListView },
   ArticalDetails: { screen: ArticalDetailsView },
-  HotTag: { screen: HotTagView }
+  HotTag: { screen: HotTagView },
+  SearchList:{screen:SearchListView}
 });
