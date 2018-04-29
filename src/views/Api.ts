@@ -1,4 +1,5 @@
 export default {
+  serverDomain:"http://www.wanandroid.com/",
   banner: "http://www.wanandroid.com/banner/json",
   knowSystem: "http://www.wanandroid.com/tree/json",
   commonNet: "http://www.wanandroid.com/friend/json", //常用网站
@@ -12,6 +13,7 @@ export function getKnowSystemArticalList(id: number): string {
 }
 
 //根据文章标题查询文章
-export function quertArtlicalList(key: string, pageNum: number = 0): string {
-  return `http://wanandroid.com/article/query/${pageNum}/json?k=${key}`;
+export function quertArtlicalList(pageNum: number): string {
+  return `article/query/${pageNum}/json`;
 }
+

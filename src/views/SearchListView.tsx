@@ -7,6 +7,7 @@ import ArticalListItem, {
   ArticalListBean
 } from "../uiComponent/ArticalListItem";
 import { quertArtlicalList } from "./Api";
+import HttpUtlis from "../utlis/Http";
 
 interface State {
   listData: ArticalListBean[];
@@ -14,6 +15,7 @@ interface State {
   keyword: string;
 }
 export default class SearchListView extends React.Component<any, State> {
+  pageNum:number=0
   constructor(props: any) {
     super(props);
     this.state = { listData: [], refreshState: RefreshState.Idle, keyword: "" };
@@ -22,29 +24,11 @@ export default class SearchListView extends React.Component<any, State> {
     this.searchArtical();
   }
 
-  searchArtical = async () => {
-    /*  if (this.state.keyword.trim().length == 0) {
-      return;
-    } */
-    try {
-      let response = await fetch(quertArtlicalList(this.state.keyword), {
-        method: "POST"
-      });
-      let json = await response.json();
-      console.log("数据", json);
-
-      let data = json.data.datas;
-      console.log("数据", data);
-
-      this.setState({
-        refreshState:
-          data.length >= 20 ? RefreshState.Idle : RefreshState.NoMoreData,
-        listData: data
-      });
-      console.log("数据", data);
-    } catch (error) {
-      this.setState({ refreshState: RefreshState.Failure });
-    }
+  searchArtical =  () => {
+    HttpUtlis.getPost(quertArtlicalList(this.pageNum),{k:this.state.keyword},(response:any)=>{
+        console.log("请求返回值",response)
+    })
+    
   };
   render() {
     return (
