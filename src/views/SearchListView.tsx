@@ -20,13 +20,12 @@ export default class SearchListView extends React.Component<any, State> {
     super(props);
     this.state = { listData: [], refreshState: RefreshState.Idle, keyword: "" };
   }
-  componentDidMount() {
-    this.searchArtical();
-  }
+ 
 
   searchArtical =  () => {
     HttpUtlis.getPost(quertArtlicalList(this.pageNum),{k:this.state.keyword},(response:any)=>{
-        console.log("请求返回值",response)
+        console.log("请求返回值111",response)
+        this.setState({listData:response.datas})
     })
     
   };
@@ -50,6 +49,7 @@ export default class SearchListView extends React.Component<any, State> {
           data={this.state.listData}
           refreshState={this.state.refreshState}
           renderItem={({ item }: any) => {
+            console.log("item",item)
             return <ArticalListItem data={item} clickItem={() => {}} />;
           }}
         />

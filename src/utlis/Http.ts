@@ -56,8 +56,10 @@ export default class HttpUtlis {
         })
         .then(responseJson => {
           // 拿到上面的转好的json
-          console.log(responseJson); // 打印返回结果
-          if (responseJson.code == 200) {
+          console.log("2222",responseJson); // 打印返回结果
+          // 200为请求成功
+         // success && success(responseJson.data);
+          if (responseJson.errorCode == 0) {
             // 200为请求成功
             success && success(responseJson.data);
           } else {
