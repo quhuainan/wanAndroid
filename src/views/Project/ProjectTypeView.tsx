@@ -13,6 +13,7 @@ import Color from "../../res/Color";
 import HttpUtlis from "../../utlis/Http";
 import Api from "../Api";
 import { ProjectList } from "./ProjectList";
+import { ProjectDetails } from "./ProjectItem";
 interface State {
   initPage: 0;
   tabData: ProjectType[];
@@ -41,8 +42,20 @@ export class ProjectTypeView extends React.Component<any, State> {
   }
   render() {
     let views = this.state.tabData.map((item: ProjectType) => {
-        return <ProjectList tabLabel={item.name} cid={item.id}   key={item.id}/>;
-      });
+      return (
+        <ProjectList
+          tabLabel={item.name}
+          cid={item.id}
+          clickItem={(projectDetails: ProjectDetails) => {
+            this.props.navigation.navigate("ArticalDetails", {
+              link: projectDetails.link,
+              title: projectDetails.title
+            });
+          }}
+          key={item.id}
+        />
+      );
+    });
     return (
       <TabView
         tabBarBackgroundColor={Color.primary}

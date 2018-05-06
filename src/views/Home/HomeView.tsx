@@ -17,6 +17,8 @@ import ArticalListItem, {
 import { BannerBean } from "../../bean";
 import Color from "../../res/Color";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import OcticonsIcon from "react-native-vector-icons/Octicons";
+
 import RefreshListView, {
   RefreshState
 } from "../../uiComponent/RefreshListView";
@@ -48,7 +50,7 @@ export default class HomeView extends React.Component<any, State> {
             navigation.navigate("HotTag");
           }}
         >
-          <Icon color={Color.white} name="menu" size={24} />
+          <OcticonsIcon color={Color.white} name="flame" size={24} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.toolbarStyle}

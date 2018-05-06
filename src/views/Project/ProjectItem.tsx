@@ -69,7 +69,7 @@ export class ProjectItem extends React.Component<Props> {
         <Image
           source={{
             uri:
-              "http://www.wanandroid.com/blogimgs/1c09f839-bf49-4a4f-a6e6-1c27fe41160a.png"
+            envelopePic
           }}
           style={{ width: 80, height: 130 }}
         />

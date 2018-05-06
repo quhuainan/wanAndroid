@@ -21,6 +21,7 @@ interface State {
 }
 interface Props {
   cid: number;
+  clickItem: Function | null;
 }
 
 export class ProjectList extends React.Component<Props, State> {
@@ -38,7 +39,13 @@ export class ProjectList extends React.Component<Props, State> {
     this.updateData(RefreshType.ReSet);
   }
   renderItem = ({ item }: any) => {
-    return <ProjectItem projectData={item} />;
+    return (
+      <TouchableOpacity
+        onPress={()=>this.props.clickItem && this.props.clickItem(item)}
+      >
+        <ProjectItem projectData={item} />
+      </TouchableOpacity>
+    );
   };
   updateData = (type: RefreshType) => {
     this.pageNum = type == RefreshType.ReSet ? 0 : ++this.pageNum;
@@ -70,8 +77,9 @@ export class ProjectList extends React.Component<Props, State> {
         data={this.state.projectData}
         refreshState={this.state.refreshState}
         renderItem={this.renderItem}
-        keyExtractor={(item) => {
-            return item.id.toString()}}
+        keyExtractor={item => {
+          return item.id.toString();
+        }}
         onHeaderRefresh={() => this.updateData(RefreshType.ReSet)}
         onFooterRefresh={() => this.updateData(RefreshType.LoadMore)}
       />
