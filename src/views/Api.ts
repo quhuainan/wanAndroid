@@ -4,7 +4,8 @@ export default {
   knowSystem: "http://www.wanandroid.com/tree/json",
   commonNet: "http://www.wanandroid.com/friend/json", //常用网站
   hotTag: "http://www.wanandroid.com/hotkey/json", // 热门标签
-  projectType: "project/tree/json"
+  projectType: "project/tree/json",
+  login: "user/login" //登录
 };
 export function getHomeArticalList(id: number): string {
   return `http://www.wanandroid.com/article/list/${id}/json`;

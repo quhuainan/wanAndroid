@@ -1,4 +1,5 @@
 import Api from "../views/Api";
+import { Alert } from "react-native";
 
 export default class HttpUtlis {
   
@@ -51,20 +52,22 @@ export default class HttpUtlis {
         body:formData
       })
         .then(response =>{
-            console.log("返回值",response)
+            
            return response.json() //把response转为json
         })
         .then(responseJson => {
          // success && success(responseJson.data);
+         console.log("返回值",responseJson)
           if (responseJson.errorCode == 0) {
             // 200为请求成功
             success && success(responseJson.data);
           } else {
-            fail && fail(responseJson.msg); //可以处理返回的错误信息
+            Alert.alert(responseJson.errorMsg)
+            fail && fail(responseJson.errorMsg); //可以处理返回的错误信息
           }
         })
         .catch(e => {
-          console.log(e);
+          console.log("post请求出错",e);
           error && error(error);
         });
     }
