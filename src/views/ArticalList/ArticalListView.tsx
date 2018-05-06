@@ -65,6 +65,7 @@ export default class ArticalListView extends React.Component<any, any> {
         data={this.state.articalList}
         renderItem={this.renderItem}
         refreshState={this.state.refreshState}
+        keyExtractor={item=>{return item.id}}
         onHeaderRefresh={() => {
           this.pageNum = 0;
           this.refreshList();

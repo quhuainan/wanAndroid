@@ -3,7 +3,6 @@ import { View, Image, Text, TouchableOpacity, Alert } from "react-native";
 import Color from "../res/Color";
 import { Heading3, Paragraph, Heading2, Heading1 } from "./Text";
 import DimenUtlis from "../utlis/DimenUtlis";
-import moment from "moment";
 import Icon from "react-native-vector-icons/MaterialIcons";
 interface Props {
   data: ArticalListBean;
@@ -20,7 +19,7 @@ export class ArticalListBean {
   desc: string | null = null;
   envelopePic: string | null = null;
   fresh: boolean | null = null;
-  id: number | null = null;
+  id: number  = -1;
   link: string = "";
   niceDate: string | null = null;
   origin: string | null = null;
@@ -35,12 +34,7 @@ export class ArticalListBean {
   zan: number | null = null;
 }
 export default class ArticalListItem extends React.Component<Props, any> {
-  getRelativeTime = (time: number): string => {
-    let normalTime = moment(time).format("YYYY-MM-DD");
-    let relativeTime = moment(normalTime, "YYYY-MM-DD").fromNow();
-    let diff = moment().diff(moment(time).format("YYYY-MM-DD"), "days");
-    return diff > 2 ? normalTime : relativeTime;
-  };
+ 
   render() {
     let data = this.props.data;
     if (data === undefined) {
@@ -71,7 +65,7 @@ export default class ArticalListItem extends React.Component<Props, any> {
             <Heading3 style={{ marginLeft: 8, flex: 1, textAlign: "justify" }}>
               {data.author}
             </Heading3>
-            <Heading3>{this.getRelativeTime(data.publishTime)}</Heading3>
+            <Heading3>{DimenUtlis.getRelativeTime(data.publishTime)}</Heading3>
           </View>
           <Heading2 style={{ color: "#000", padding: 8 }}>
             {data.title}

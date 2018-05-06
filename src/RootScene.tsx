@@ -15,6 +15,8 @@ import ArticalDetailsView from "./views/ArticalDetailsView";
 import HotTagView from "./views/HotTagView";
 import ArticalListView from "./views/ArticalList/ArticalListView";
 import SearchListView from "./views/SearchListView";
+import { ProjectTypeView } from "./views/Project/ProjectTypeView";
+import { UserView } from "./views/User/UserView";
 
 export default class RootView extends React.Component {
   render() {
@@ -41,8 +43,27 @@ const Tab = TabNavigator(
           return <TabItem focused={focused} icon="widgets" />;
         }
       }
+    },
+    ProjectType: {
+      screen: ProjectTypeView,
+      navigationOptions: {
+        tabBarLabel: "项目",
+        tabBarIcon: ({ focused, tintColor }: any) => {
+          return <TabItem focused={focused} icon="explore" />;
+        }
+      }
+    },
+    User: {
+      screen: UserView,
+      navigationOptions: {
+        tabBarLabel: "用户",
+        tabBarIcon: ({ focused, tintColor }: any) => {
+          return <TabItem focused={focused} icon="person" />;
+        }
+      }
     }
   },
+  
   {
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",

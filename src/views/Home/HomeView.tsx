@@ -150,6 +150,7 @@ export default class HomeView extends React.Component<any, State> {
               source={{
                 uri: item.imagePath
               }}
+              key={item.id}
             />
           );
         })}
@@ -172,7 +173,7 @@ export default class HomeView extends React.Component<any, State> {
           }}
           data={this.state.listData}
           keyExtractor={item => {
-            return item.id;
+            return item.id.toString();
           }}
           renderItem={this.renderItem.bind(this)}
         />

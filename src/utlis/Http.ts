@@ -2,7 +2,7 @@ import Api from "../views/Api";
 
 export default class HttpUtlis {
   
-    static getRequest = (url:string, params: any = null, success: Function, fail: Function | null=null, error: Function | null=null) => {
+    static getRequest = (url:string, success: Function,params: any = null,  fail: Function | null=null, error: Function | null=null) => {
       if (params) {
         let paramsArray:String[] = [];
         //拼接参数
@@ -23,12 +23,12 @@ export default class HttpUtlis {
         .then(response => response.json()) //把response转为json
         .then(responseJson => {
           console.log(responseJson); // 打印返回结果
-          if (responseJson.responseCode == 200) {
+          if (responseJson.errorCode == 0) {
             // 200为请求成功
             success && success(responseJson.data);
           } else {
             fail && fail(responseJson); //可以处理返回的错误信息
-            console.log(responseJson.responseCode);
+            console.log(responseJson.errorMsg);
           }
         })
         .catch(e => {
@@ -55,9 +55,6 @@ export default class HttpUtlis {
            return response.json() //把response转为json
         })
         .then(responseJson => {
-          // 拿到上面的转好的json
-          console.log("2222",responseJson); // 打印返回结果
-          // 200为请求成功
          // success && success(responseJson.data);
           if (responseJson.errorCode == 0) {
             // 200为请求成功
