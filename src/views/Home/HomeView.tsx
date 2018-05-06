@@ -22,14 +22,15 @@ import OcticonsIcon from "react-native-vector-icons/Octicons";
 import RefreshListView, {
   RefreshState
 } from "../../uiComponent/RefreshListView";
+import HttpUtlis from "../../utlis/Http";
 interface State {
   bannerData: BannerBean[];
   listData: ArticalListBean[];
-  pageNum: number;
   resfreshState: number;
 }
 
 export default class HomeView extends React.Component<any, State> {
+  pageNum: number = 0;
   static navigationOptions = ({ navigation }: any) => ({
     headerRight: (
       <View style={{ flexDirection: "row" }}>
@@ -51,7 +52,9 @@ export default class HomeView extends React.Component<any, State> {
         </TouchableOpacity>
       </View>
     ),
-    headerTitle:(<Text style={{color:"white",fontSize:16}}>玩android</Text>),
+    headerTitle: (
+      <Text style={{ color: "white", fontSize: 16 }}>玩android</Text>
+    ),
 
     headerStyle: { backgroundColor: Color.primary }
   });
@@ -60,57 +63,45 @@ export default class HomeView extends React.Component<any, State> {
     super(props);
     this.state = {
       bannerData: [],
-      listData: [],
-      pageNum: 0,
+      listData:new Array<ArticalListBean>(),
       resfreshState: RefreshState.Idle
     };
   }
 
   componentDidMount() {
-    this.initdata();
+     this.initdata();
   }
 
   initdata = () => {
-    this.getBannerData();
-    this.getArticalList();
+     this.getBannerData();
+     this.getArticalList();
+     console.log("aaaa","刷新列表1")
+
   };
-  getBannerData = async () => {
-    try {
-      let response = await fetch(Api.banner);
-      let json: any = await response.json();
-      this.setState({ bannerData: json.data });
-    } catch (error) {
-      console.log(error);
-    }
+  getBannerData = () => {
+    HttpUtlis.getRequest(Api.banner, (response: any) => {
+      this.setState({ bannerData: response });
+    });
   };
 
-  getArticalList = async () => {
+  getArticalList = () => {
+    console.log("aaaa","刷新列表2")
     this.setState({
       resfreshState:
-        this.state.pageNum == 0
+        this.pageNum == 0
           ? RefreshState.HeaderRefreshing
           : RefreshState.FooterRefreshing
     });
-
-    try {
+    HttpUtlis.getRequest(getHomeArticalList(this.pageNum), (response: any) => {
       this.setState({
+        listData:this.pageNum == 0
+        ?response.datas:[...this.state.listData,response.datas] ,
         resfreshState:
-          this.state.pageNum == 0
-            ? RefreshState.HeaderRefreshing
-            : RefreshState.FooterRefreshing
-      });
-      let response = await fetch(getHomeArticalList(this.state.pageNum));
-      let json: any = await response.json();
-      this.setState({
-        listData: json.data.datas,
-        resfreshState:
-          json.data.datas.length < 20
+          response.datas.length < 20
             ? RefreshState.NoMoreData
             : RefreshState.Idle
       });
-    } catch (error) {
-      this.setState({ listData: [], resfreshState: RefreshState.Failure });
-    }
+    });
   };
 
   startDetailsView = (data: ArticalListBean) => {
@@ -156,12 +147,15 @@ export default class HomeView extends React.Component<any, State> {
           ListHeaderComponent={this.renderHeader}
           refreshState={this.state.resfreshState}
           onHeaderRefresh={() => {
-            this.setState({ pageNum: 0 });
+            this.pageNum = 0;
+            console.log("aaaaa","刷新头")
             this.initdata();
           }}
           onFooterRefresh={() => {
-            this.setState({ pageNum: this.state.pageNum + 1 });
-            this.getArticalList();
+            ++this.pageNum + 1;
+           //  this.getArticalList();
+            console.log("aaaa","刷新列表3")
+
           }}
           data={this.state.listData}
           keyExtractor={item => {

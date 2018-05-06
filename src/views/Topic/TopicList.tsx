@@ -71,7 +71,7 @@ export default class TopicList extends React.Component<any, State> {
           this.refreshData(this.props.id);
         }}
         keyExtractor={item => {
-          return item.id;
+          return item.id.toString();
         }}
         renderItem={this.renderItem}
       />
