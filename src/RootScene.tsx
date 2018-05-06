@@ -17,6 +17,8 @@ import ArticalListView from "./views/ArticalList/ArticalListView";
 import SearchListView from "./views/SearchListView";
 import { ProjectTypeView } from "./views/Project/ProjectTypeView";
 import { UserView } from "./views/User/UserView";
+import LoginView from "./views/Login/LoginView";
+import RegisterView from "./views/Login/RegisterView";
 
 export default class RootView extends React.Component {
   render() {
@@ -83,5 +85,7 @@ const Navigator = StackNavigator({
   ArticalList: { screen: ArticalListView },
   ArticalDetails: { screen: ArticalDetailsView },
   HotTag: { screen: HotTagView },
-  SearchList:{screen:SearchListView}
+  SearchList:{screen:SearchListView},
+  LoginView:{screen:LoginView},
+  Register:{screen:RegisterView}
 });

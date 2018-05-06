@@ -31,17 +31,6 @@ interface State {
 
 export default class HomeView extends React.Component<any, State> {
   static navigationOptions = ({ navigation }: any) => ({
-    title: "玩android",
-    headerLeft: (
-      <TouchableOpacity
-        style={styles.toolbarStyle}
-        onPress={() => {
-          Alert.alert("展开侧边栏");
-        }}
-      >
-        <Icon color={Color.white} name="menu" size={24} />
-      </TouchableOpacity>
-    ),
     headerRight: (
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity
@@ -62,12 +51,13 @@ export default class HomeView extends React.Component<any, State> {
         </TouchableOpacity>
       </View>
     ),
+    headerTitle:(<Text style={{color:"white",fontSize:16}}>玩android</Text>),
+
     headerStyle: { backgroundColor: Color.primary }
   });
 
   constructor(props: any) {
     super(props);
-    console.log("props Home", props);
     this.state = {
       bannerData: [],
       listData: [],

@@ -114,13 +114,19 @@ export class UserView extends React.Component<any, State> {
             flexDirection: "row",
             alignContent: "center",
             margin: 16,
-            backgroundColor: "white"
+            backgroundColor: "white",
+            alignItems:"center"
           }}
         >
           <Icon name="account-circle" size={48} color={Color.gray} />
           <View style={{ justifyContent: "center", flex: 1, marginLeft: 16 }}>
-            <Heading2>
-              {this.state.loginStatus ? username : "登陆/注册"}
+            <Heading2
+              onPress={() => {
+               // Alert.alert("登陆");
+              this.props.navigation.navigate("LoginView")
+              }}
+            >
+              {this.state.loginStatus ? username : "登录/注册"}
             </Heading2>
             <Paragraph style={{ marginTop: 8 }}>
               {email == null ? "添加邮箱" : email}

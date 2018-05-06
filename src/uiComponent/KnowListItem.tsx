@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 export class KnowItemBean {
   children: KnowItemBean[] = [];
   courseId: number | null = null;
-  id: number = 0;
+  id: number = -1;
   name: string = "";
   order: number | null = null;
   parentChapterId: number | null = null;
@@ -21,7 +21,7 @@ export default class KnowListItem extends React.Component<Props> {
   render() {
     let data: KnowItemBean = this.props.data;
     let views = data.children.map((item: KnowItemBean) => {
-      return <Text style={{ padding: 8 }}> {item.name}</Text>;
+      return <Text style={{ padding: 8 }} key={item.id.toString()}> {item.name}</Text>;
     });
     return (
       <TouchableOpacity
