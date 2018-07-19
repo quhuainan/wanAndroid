@@ -12,7 +12,7 @@ import TabView, { ScrollableTabBar } from "react-native-scrollable-tab-view";
 import Color from "../../res/Color";
 import HttpUtlis from "../../utlis/Http";
 import Api from "../Api";
-import { ProjectList } from "./ProjectList";
+import  ProjectList  from "./ProjectList";
 import { ProjectDetails } from "./ProjectItem";
 interface State {
   initPage: 0;
@@ -31,6 +31,12 @@ interface ProjectType {
 }
 
 export class ProjectTypeView extends React.Component<any, State> {
+
+  static navigationOptions = ({ navigation }: any) => ({
+    headerTitle: <Text style={{ color: "white", fontSize: 16 }}>项目</Text>,
+
+    headerStyle: { backgroundColor: Color.primary }
+  });
   constructor(props: any) {
     super(props);
     this.state = { initPage: 0, tabData: [] };

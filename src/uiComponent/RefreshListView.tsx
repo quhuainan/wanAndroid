@@ -40,6 +40,8 @@ interface Props extends FlatListProperties<any> {
 }
 
 class RefreshListView extends React.Component<Props> {
+  onEndReachedCalledDuringMomentum = true;
+
   static defaultProps = {
     footerRefreshingText: "数据加载中…",
     footerFailureText: "点击重新加载",
@@ -54,8 +56,11 @@ class RefreshListView extends React.Component<Props> {
 
   onEndReached = (info: { distanceFromEnd: number }) => {
     if (this.shouldStartFooterRefreshing()) {
-      this.props.onFooterRefresh &&
-        this.props.onFooterRefresh(RefreshState.FooterRefreshing);
+      if (!this.onEndReachedCalledDuringMomentum) {
+        this.onEndReachedCalledDuringMomentum = true;
+        this.props.onFooterRefresh &&
+          this.props.onFooterRefresh(RefreshState.FooterRefreshing);
+      }
     }
   };
 
@@ -90,6 +95,9 @@ class RefreshListView extends React.Component<Props> {
         renderItem={this.props.renderItem}
         keyExtractor={this.props.keyExtractor}
         ListHeaderComponent={this.props.ListHeaderComponent}
+        onMomentumScrollBegin={() => {
+          this.onEndReachedCalledDuringMomentum = false;
+        }}
         {...rest}
       />
     );

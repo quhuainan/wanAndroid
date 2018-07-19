@@ -75,8 +75,6 @@ export default class HomeView extends React.Component<any, State> {
   initdata = () => {
      this.getBannerData();
      this.getArticalList();
-     console.log("aaaa","刷新列表1")
-
   };
   getBannerData = () => {
     HttpUtlis.getRequest(Api.banner, (response: any) => {
@@ -85,7 +83,6 @@ export default class HomeView extends React.Component<any, State> {
   };
 
   getArticalList = () => {
-    console.log("aaaa","刷新列表2")
     this.setState({
       resfreshState:
         this.pageNum == 0
@@ -148,7 +145,6 @@ export default class HomeView extends React.Component<any, State> {
           refreshState={this.state.resfreshState}
           onHeaderRefresh={() => {
             this.pageNum = 0;
-            console.log("aaaaa","刷新头")
             this.initdata();
           }}
           onFooterRefresh={() => {

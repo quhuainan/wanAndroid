@@ -1,88 +1,82 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  Alert
-} from "react-native";
+import { TouchableOpacity, StyleProp, TextStyle } from "react-native";
 import * as React from "react";
 import RefreshListView, {
-  RefreshState,
   RefreshType
 } from "../../uiComponent/RefreshListView";
-import { ProjectItem, ProjectDetails } from "./ProjectItem";
-import HttpUtlis from "../../utlis/Http";
-import Api, { queryProjectDetails } from "../Api";
-interface State {
-  projectData: ProjectDetails[];
-  refreshState: number;
-}
+import { ProjectItem } from "./ProjectItem";
+import { connect } from "react-redux";
+import { HttpAction, HTTP_BEFORE } from "../../dataFlow/action";
+import { queryProjectDetails } from "../Api";
+
 interface Props {
+  clickItem: Function;
+  projectList: Array<String>;
   cid: number;
-  clickItem: Function | null;
+  style: StyleProp<TextStyle>;
+  refreshState: number;
+  refreshData: Function;
 }
 
-export class ProjectList extends React.Component<Props, State> {
+class ProjectList extends React.PureComponent<Props> {
   pageNum: number = 1;
   pageSize: number = 20;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
-    this.state = {
-      projectData: new Array<ProjectDetails>(),
-      refreshState: RefreshState.Idle
-    };
   }
   componentDidMount() {
-    this.updateData(RefreshType.ReSet);
+    this.props.refreshData(1, this.props.cid);
   }
   renderItem = ({ item }: any) => {
     return (
       <TouchableOpacity
-        onPress={()=>this.props.clickItem && this.props.clickItem(item)}
+        onPress={() => this.props.clickItem && this.props.clickItem(item.id)}
       >
         <ProjectItem projectData={item} />
       </TouchableOpacity>
     );
   };
-  updateData = (type: RefreshType) => {
-    this.pageNum = type == RefreshType.ReSet ? 0 : ++this.pageNum;
-    this.setState({
-      refreshState:
-        type == RefreshType.ReSet
-          ? RefreshState.HeaderRefreshing
-          : RefreshState.FooterRefreshing
-    });
-    HttpUtlis.getRequest(
-      queryProjectDetails(this.pageNum, this.props.cid),
-      (response: any) => {
-        this.setState({
-          projectData: response.datas,
-          refreshState:
-            type == RefreshType.ReSet
-              ? RefreshState.Idle
-              : response.datas.length < this.pageSize
-                ? RefreshState.NoMoreData
-                : RefreshState.Idle
-        });
-      }
-    );
-  };
-
   render() {
+    console.log("render", this.props);
     return (
       <RefreshListView
-        data={this.state.projectData}
-        refreshState={this.state.refreshState}
+        data={this.props.projectList}
+        refreshState={this.props.refreshState}
         renderItem={this.renderItem}
         keyExtractor={item => {
           return item.id.toString();
         }}
-        onHeaderRefresh={() => this.updateData(RefreshType.ReSet)}
-        onFooterRefresh={() => this.updateData(RefreshType.LoadMore)}
+        onHeaderRefresh={() => this.props.refreshData(RefreshType.ReSet)}
+        onFooterRefresh={() => this.props.refreshData(RefreshType.LoadMore)}
       />
     );
   }
 }
+
+const mapStateToProps = (state: any, ownProps: Props) => {
+  console.log("state", state);
+  return {
+    projectList: state.project.projectList,
+    refreshState: state.project.refreshState
+  };
+};
+
+const mapDispatchToProps = (dispatch: any, ownProps: Props) => {
+  return {
+    refreshData: (pageNum: number) => {
+      dispatch({ type: HTTP_BEFORE });
+      dispatch({
+        ...new HttpAction(
+          "GET",
+          queryProjectDetails(pageNum, ownProps.cid),
+          ownProps.cid
+        )
+      });
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProjectList);

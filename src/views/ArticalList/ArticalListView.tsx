@@ -37,7 +37,7 @@ export default class ArticalListView extends React.Component<any, any> {
             : RefreshState.FooterRefreshing
       });
       let response = await fetch(
-        quertArtlicalList(this.props.navigation.state.params.key,this.pageNum),
+        quertArtlicalList(this.props.navigation.state.params.key),
         {
           method: "POST"
         }

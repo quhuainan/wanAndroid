@@ -58,7 +58,7 @@ export default class TopicView extends React.Component<Props, State> {
       headerStyle: { backgroundColor: Color.primary }
     };
   };
-
+  
   constructor(props: any) {
     super(props);
 
