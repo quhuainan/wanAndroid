@@ -1,4 +1,9 @@
-import { TouchableOpacity, StyleProp, TextStyle } from "react-native";
+import {
+  TouchableOpacity,
+  StyleProp,
+  TextStyle,
+  ViewStyle
+} from "react-native";
 import * as React from "react";
 import RefreshListView, {
   RefreshType
@@ -7,7 +12,8 @@ import { ProjectItem } from "./ProjectItem";
 import { connect } from "react-redux";
 import { HttpAction, HTTP_BEFORE } from "../../dataFlow/action";
 import { queryProjectDetails } from "../Api";
-
+import { bundleToComponent } from "redux-arena/tools";
+import reducer, { State as state, ProjectListState } from "./dataFlow/reducer";
 interface Props {
   clickItem: Function;
   projectList: Array<String>;
@@ -23,6 +29,7 @@ class ProjectList extends React.PureComponent<Props> {
 
   constructor(props: Props) {
     super(props);
+    console.log("props", this.props);
   }
   componentDidMount() {
     this.props.refreshData(1, this.props.cid);
@@ -46,8 +53,11 @@ class ProjectList extends React.PureComponent<Props> {
         keyExtractor={item => {
           return item.id.toString();
         }}
-        onHeaderRefresh={() => this.props.refreshData(RefreshType.ReSet)}
-        onFooterRefresh={() => this.props.refreshData(RefreshType.LoadMore)}
+        onHeaderRefresh={() => {
+          console.log("下拉刷新");
+          this.props.refreshData(1);
+        }}
+        // onFooterRefresh={() => this.props.refreshData(1)}
       />
     );
   }
@@ -55,16 +65,20 @@ class ProjectList extends React.PureComponent<Props> {
 
 const mapStateToProps = (state: any, ownProps: Props) => {
   console.log("state", state);
+  const projectState: ProjectListState =
+    state.projectMap.projectListMap.get(ownProps.cid) || new ProjectListState();
+  console.log("projectState", projectState);
+
   return {
-    projectList: state.project.projectList,
-    refreshState: state.project.refreshState
+    projectList: projectState.projectList,
+    refreshState: projectState.refreshState
   };
 };
 
 const mapDispatchToProps = (dispatch: any, ownProps: Props) => {
   return {
     refreshData: (pageNum: number) => {
-      dispatch({ type: HTTP_BEFORE });
+      //dispatch({ type: HTTP_BEFORE ,meta:ownProps.cid});
       dispatch({
         ...new HttpAction(
           "GET",

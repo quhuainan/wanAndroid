@@ -16,17 +16,20 @@ import HotTagView from "./views/HotTagView";
 import ArticalListView from "./views/ArticalList/ArticalListView";
 import SearchListView from "./views/SearchListView";
 import { ProjectTypeView } from "./views/Project/ProjectTypeView";
-import ProjectList from "./views/Project/ProjectList"
+import ProjectList from "./views/Project/ProjectList";
 import { UserView } from "./views/User/UserView";
 import LoginView from "./views/Login/LoginView";
 import RegisterView from "./views/Login/RegisterView";
 import { Provider } from "react-redux";
 import store from "./Store";
+import ExceptionHandlerView from "./uiComponent/GlobalEventView/ExceptionHandlerView";
 export default class RootView extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <Navigator />
+        <ExceptionHandlerView>
+          <Navigator />
+        </ExceptionHandlerView>
       </Provider>
     );
   }

@@ -25,10 +25,10 @@ class HttpAction extends BaseAction {
   url: string;
   params?: any;
   constructor(method: string, url: string, params?: any) {
-    super("HTTP");
+    super(HTTP_BEFORE);
     this.method = method;
     this.url = url;
     this.params = params;
   }
 }
-export { HTTP_BEFORE, HTTP, HTTP_SUCCESS, HTTP_FAILURE, Action, HttpAction };
+export { HTTP_BEFORE, HTTP, HTTP_SUCCESS, HTTP_FAILURE, Action, HttpAction,BaseAction };

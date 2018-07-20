@@ -1,7 +1,5 @@
-import { combineEpics, ActionsObservable } from "redux-observable";
+import { combineEpics } from "redux-observable";
 import { map, catchError, switchMap } from "rxjs/operators";
-import { Observable, ObservableInput, interval, timer } from "rxjs";
-import { of } from "rxjs/internal/observable/of";
 import { fromPromise } from "rxjs/internal/observable/fromPromise";
 import { ofType } from "redux-observable";
 import {
@@ -13,11 +11,18 @@ import {
 } from "./action";
 import Api from "../views/Api";
 import store from "../Store";
+import { Observable, of } from "rxjs";
+
+export const httpBeforeEpic = (action$: any) => {
+  return action$.pipe(
+    ofType(HTTP_BEFORE),
+
+    map((action: any) => {
+      return { ...action, type: HTTP };
+    })
+  );
+};
 export const fetchEpic = (action$: any) => {
-  console.log("store", store);
-  if (store != undefined) {
-    store.dispatch({ type: HTTP_BEFORE });
-  }
   return action$.pipe(
     ofType(HTTP),
     switchMap((action: HttpAction) => {
@@ -25,32 +30,38 @@ export const fetchEpic = (action$: any) => {
       return fromPromise(
         createRequest(action.method, action.url, action.params)
           .then(res => {
+            const error = new Error();
+            error.name = "2";
+            error.message = "网络出错";
+            throw error;
             return res.json();
           })
           .catch(e => {
-            console.log("请求失败", e);
-            return { type: HTTP_FAILURE, payload: e, meta: action.params };
+            console.log("promise请求失败", action);
+            const error = new Error();
+            error.name = "2";
+            error.message = "网络出错";
+            throw error;
           })
       ).pipe(
         map(res => {
-          console.log("返回值", newAction);
+          console.log("epic请求成功", action);
           return {
             type: HTTP_SUCCESS,
             payload: res,
             meta: newAction.params
           };
+        }),
+        catchError((err: Error, caught: Observable<any>) => {
+          console.log("epic请求失败", action);
+
+          return of({ type: HTTP_FAILURE, payload: err });
         })
       );
     })
   );
 };
-// fromPromise<any>(fetchPromise).pipe(
-//   map((res: any) => Action(SUCCESS, res.data)),
-//   catchError((err: any) => {
-//     console.log(err);
-//     return of(Action(FAILURE, { err: err.message }));
-//   })
-// );
+
 export const createRequest = (method: string, url: string, params: any) => {
   console.log("创建请求");
   let observable;
@@ -87,4 +98,4 @@ export const createRequest = (method: string, url: string, params: any) => {
   }
 };
 
-export const rootEpic = combineEpics(fetchEpic);
+export const rootEpic = combineEpics(httpBeforeEpic, fetchEpic);
