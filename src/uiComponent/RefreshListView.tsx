@@ -18,8 +18,9 @@ export const RefreshState = {
   Failure: 4
 };
 export enum RefreshType {
-  ReSet = 0,
-  LoadMore = 1
+  ReSet = 0, //无用
+  LoadMore = 1,
+  PullRefresh = 2
 }
 const DEBUG = false;
 const log = (text: string) => {

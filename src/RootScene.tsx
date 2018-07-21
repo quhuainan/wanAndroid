@@ -22,14 +22,19 @@ import LoginView from "./views/Login/LoginView";
 import RegisterView from "./views/Login/RegisterView";
 import { Provider } from "react-redux";
 import store from "./Store";
-import ExceptionHandlerView from "./uiComponent/GlobalEventView/ExceptionHandlerView";
+import { AppDefendView, AppStatus } from "./base";
 export default class RootView extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <ExceptionHandlerView>
+        <AppDefendView
+          appStatus={new AppStatus()}
+          isLoading={false}
+          name={new AppStatus().name}
+          message={new AppStatus().message}
+        >
           <Navigator />
-        </ExceptionHandlerView>
+        </AppDefendView>
       </Provider>
     );
   }

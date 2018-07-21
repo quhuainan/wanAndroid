@@ -1,19 +1,18 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { reducer as ProjectReducer } from "./views/Project/index";
-import { reducer as ErrorReducer } from "./uiComponent/GlobalEventView/ExceptionHandlerView";
+import { AppReducer } from "./base";
+
 import { createEpicMiddleware } from "redux-observable";
-import { rootEpic } from "./dataFlow/epic";
-import { createArenaStore } from "redux-arena";
+import { rootEpic } from "./base";
 
 export class StoreBean {
   project = { projectList: [], refreshState: 0 };
 }
 
 const epicMiddleware = createEpicMiddleware();
-console.log(" ErrorReducer", ErrorReducer);
 const reducer = combineReducers({
   projectMap: ProjectReducer,
-  error: ErrorReducer
+  app: AppReducer
 });
 
 const middlewares = [epicMiddleware];

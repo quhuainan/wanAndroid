@@ -1,19 +1,14 @@
-import {
-  TouchableOpacity,
-  StyleProp,
-  TextStyle,
-  ViewStyle
-} from "react-native";
+import { TouchableOpacity, StyleProp, TextStyle } from "react-native";
 import * as React from "react";
 import RefreshListView, {
   RefreshType
 } from "../../uiComponent/RefreshListView";
 import { ProjectItem } from "./ProjectItem";
 import { connect } from "react-redux";
-import { HttpAction, HTTP_BEFORE } from "../../dataFlow/action";
 import { queryProjectDetails } from "../Api";
-import { bundleToComponent } from "redux-arena/tools";
-import reducer, { State as state, ProjectListState } from "./dataFlow/reducer";
+import { ProjectListState } from "./dataFlow/reducer";
+import { NetRequestAction, NetRequestBean } from "../../base";
+import { Dispatch } from "redux";
 interface Props {
   clickItem: Function;
   projectList: Array<String>;
@@ -57,7 +52,9 @@ class ProjectList extends React.PureComponent<Props> {
           console.log("下拉刷新");
           this.props.refreshData(1);
         }}
-        // onFooterRefresh={() => this.props.refreshData(1)}
+        onFooterRefresh={() =>
+          this.props.refreshData(++this.pageNum)
+        }
       />
     );
   }
@@ -75,15 +72,19 @@ const mapStateToProps = (state: any, ownProps: Props) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any, ownProps: Props) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: Props) => {
   return {
-    refreshData: (pageNum: number) => {
-      //dispatch({ type: HTTP_BEFORE ,meta:ownProps.cid});
+    refreshData: (pageNum: number, refreshType: RefreshType) => {
       dispatch({
-        ...new HttpAction(
-          "GET",
-          queryProjectDetails(pageNum, ownProps.cid),
-          ownProps.cid
+        ...new NetRequestAction(
+          {
+            ...new NetRequestBean(
+              "GET",
+              queryProjectDetails(pageNum, ownProps.cid),
+              {pageNum:pageNum,cid:ownProps.cid}
+            )
+          },
+          false
         )
       });
     }

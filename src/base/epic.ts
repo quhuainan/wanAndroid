@@ -3,66 +3,63 @@ import { map, catchError, switchMap } from "rxjs/operators";
 import { fromPromise } from "rxjs/internal/observable/fromPromise";
 import { ofType } from "redux-observable";
 import {
-  HTTP,
-  HttpAction,
-  HTTP_BEFORE,
-  HTTP_FAILURE,
-  HTTP_SUCCESS
-} from "./action";
+  AppAction,
+  NetRequestAction,
+  NetRequestAT,
+  NetRequestBeforeAction,
+  NetRequestSuccessAT,
+  NetRequestFailureAT,
+  NetRequestBeforeAT,
+  AppStatusType
+} from ".";
 import Api from "../views/Api";
 import store from "../Store";
 import { Observable, of } from "rxjs";
+import { NetRequestBean } from "./model";
+import { AppStatus } from "./data";
 
 export const httpBeforeEpic = (action$: any) => {
   return action$.pipe(
-    ofType(HTTP_BEFORE),
-
+    ofType(NetRequestBeforeAT),
     map((action: any) => {
-      return { ...action, type: HTTP };
+      return { ...action, type: NetRequestAT };
     })
   );
 };
 export const fetchEpic = (action$: any) => {
   return action$.pipe(
-    ofType(HTTP),
-    switchMap((action: HttpAction) => {
+    ofType(NetRequestAT),
+    switchMap((action: NetRequestAction) => {
       const newAction = action;
       return fromPromise(
-        createRequest(action.method, action.url, action.params)
+        createRequest(action.payload)
           .then(res => {
-            const error = new Error();
-            error.name = "2";
-            error.message = "网络出错";
-            throw error;
+            // const error = new Error();
+            // error.name = "2";
+            // error.message = "网络出错";
+            // throw error;
             return res.json();
           })
           .catch(e => {
             console.log("promise请求失败", action);
-            const error = new Error();
-            error.name = "2";
-            error.message = "网络出错";
-            throw error;
+            throw new AppStatus(AppStatusType.FAILURE, e.message);
           })
       ).pipe(
         map(res => {
           console.log("epic请求成功", action);
-          return {
-            type: HTTP_SUCCESS,
-            payload: res,
-            meta: newAction.params
-          };
+          return {...new AppAction(NetRequestSuccessAT,res,newAction.payload)}
         }),
         catchError((err: Error, caught: Observable<any>) => {
-          console.log("epic请求失败", action);
-
-          return of({ type: HTTP_FAILURE, payload: err });
+          console.log("epic请求失败", err);
+          return of({...new AppAction(NetRequestFailureAT,new AppStatus(AppStatusType.FAILURE,err.message)).setError(false)});
         })
       );
     })
   );
 };
 
-export const createRequest = (method: string, url: string, params: any) => {
+//todo 可能有错误
+export const createRequest = ({ method, url, params }: any) => {
   console.log("创建请求");
   let observable;
   if (method == "GET") {
