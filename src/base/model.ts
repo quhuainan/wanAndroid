@@ -22,8 +22,14 @@ class AppAction<T> implements Action<String> {
 const NetRequestAT = "APP/NetRequestActionType";
 
 class NetRequestAction extends AppAction<NetRequestBean> {
-  constructor(payload?: NetRequestBean, meta?: any) {
+  successActionAT: AppAction<any>;
+  constructor(
+    successActionAT = new AppAction(NetRequestSuccessAT),
+    payload?: NetRequestBean,
+    meta?: any
+  ) {
     super(NetRequestBeforeAT, payload, meta);
+    this.successActionAT = successActionAT;
   }
 }
 class NetRequestBean {

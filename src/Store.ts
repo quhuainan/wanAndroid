@@ -4,6 +4,8 @@ import { AppReducer } from "./base";
 
 import { createEpicMiddleware } from "redux-observable";
 import { rootEpic } from "./base";
+import { HomeBannerReducer } from "./businessComponet/banner";
+import { ArticalListReducer } from "./businessComponet/articalList";
 
 export class StoreBean {
   project = { projectList: [], refreshState: 0 };
@@ -12,7 +14,9 @@ export class StoreBean {
 const epicMiddleware = createEpicMiddleware();
 const reducer = combineReducers({
   projectMap: ProjectReducer,
-  app: AppReducer
+  app: AppReducer,
+  homeBanner: HomeBannerReducer,
+  articalList: ArticalListReducer
 });
 
 const middlewares = [epicMiddleware];

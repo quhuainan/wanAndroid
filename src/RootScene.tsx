@@ -102,4 +102,9 @@ const Navigator = StackNavigator({
   SearchList: { screen: SearchListView },
   LoginView: { screen: LoginView },
   Register: { screen: RegisterView }
+},{
+  navigationOptions:{
+    headerTitleStyle:{color:'white',alignSelf:'center'},
+    headerStyle:{backgroundColor:Color.primary}
+  }
 });

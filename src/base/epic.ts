@@ -6,16 +6,12 @@ import {
   AppAction,
   NetRequestAction,
   NetRequestAT,
-  NetRequestBeforeAction,
-  NetRequestSuccessAT,
   NetRequestFailureAT,
   NetRequestBeforeAT,
   AppStatusType
 } from ".";
 import Api from "../views/Api";
-import store from "../Store";
 import { Observable, of } from "rxjs";
-import { NetRequestBean } from "./model";
 import { AppStatus } from "./data";
 
 export const httpBeforeEpic = (action$: any) => {
@@ -41,13 +37,13 @@ export const fetchEpic = (action$: any) => {
             return res.json();
           })
           .catch(e => {
-            console.log("promise请求失败", action);
+            console.log("promise请求失败", e);
             throw new AppStatus(AppStatusType.FAILURE, e.message);
           })
       ).pipe(
         map(res => {
           console.log("epic请求成功", action);
-          return {...new AppAction(NetRequestSuccessAT,res,newAction.payload)}
+          return Object.assign({},newAction.successActionAT,{payload:res.data})
         }),
         catchError((err: Error, caught: Observable<any>) => {
           console.log("epic请求失败", err);
@@ -60,8 +56,6 @@ export const fetchEpic = (action$: any) => {
 
 //todo 可能有错误
 export const createRequest = ({ method, url, params }: any) => {
-  console.log("创建请求");
-  let observable;
   if (method == "GET") {
     if (params) {
       let paramsArray: String[] = [];
@@ -75,6 +69,8 @@ export const createRequest = ({ method, url, params }: any) => {
         url += "&" + paramsArray.join("&");
       }
     }
+    console.log("创建请求",`${Api.serverDomain}${url}`);
+
     // fetch 请求
     return fetch(`${Api.serverDomain}${url}`, {
       method: "GET",

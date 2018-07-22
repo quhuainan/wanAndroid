@@ -7,7 +7,7 @@ import { ProjectItem } from "./ProjectItem";
 import { connect } from "react-redux";
 import { queryProjectDetails } from "../Api";
 import { ProjectListState } from "./dataFlow/reducer";
-import { NetRequestAction, NetRequestBean } from "../../base";
+import { NetRequestAction, NetRequestBean, AppAction, NetRequestSuccessAT } from "../../base";
 import { Dispatch } from "redux";
 interface Props {
   clickItem: Function;
@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: Props) => {
   return {
     refreshData: (pageNum: number, refreshType: RefreshType) => {
       dispatch({
-        ...new NetRequestAction(
+        ...new NetRequestAction(new AppAction(NetRequestSuccessAT),
           {
             ...new NetRequestBean(
               "GET",
