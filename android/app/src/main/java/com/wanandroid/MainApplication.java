@@ -3,6 +3,7 @@ package com.wanandroid;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.microsoft.codepush.react.CodePush;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -21,10 +22,17 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     @Override
+    protected String getJSBundleFile() {
+      return CodePush.getJSBundleFile();
+    }
+
+    @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new VectorIconsPackage()
+            new VectorIconsPackage(),
+              new CodePush(BuildConfig.CODEPUSH_KEY, MainApplication.this, BuildConfig.DEBUG) // Add/change this line.
+
       );
     }
 

@@ -19,8 +19,12 @@ import { ProjectTypeView } from "./views/Project/ProjectTypeView";
 import { UserView } from "./views/User/UserView";
 import LoginView from "./views/Login/LoginView";
 import RegisterView from "./views/Login/RegisterView";
-
+import codePush from 'react-native-code-push'
 export default class RootView extends React.Component {
+
+  componentDidCatch(){
+    codePush.sync()
+  }
   render() {
     return <Navigator />;
   }

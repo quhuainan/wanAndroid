@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "start": "react-native start --transformer node_modules/react-native-typescript-transformer/index.js --sourceExts ts,tsx",
-    "test": "jest"
+    "test": "jest",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "deploy": "react-native bundle --entry-file index.js --platform android --dev false --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res/"
   },
   "dependencies": {
     "moment": "^2.21.0",
     "react": "^16.3.0-alpha.1",
     "react-native": "0.54.2",
+    "react-native-code-push": "^5.4.2",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-swiper": "^1.5.13",
     "react-native-vector-icons": "^4.5.0",
