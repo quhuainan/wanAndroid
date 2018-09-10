@@ -20,9 +20,10 @@ import { UserView } from "./views/User/UserView";
 import LoginView from "./views/Login/LoginView";
 import RegisterView from "./views/Login/RegisterView";
 import codePush from 'react-native-code-push'
+import SplashView from "./views/Splash/SplashView";
 export default class RootView extends React.Component {
 
-  componentDidCatch(){
+  componentDidMount(){
     codePush.sync()
   }
   render() {
@@ -84,6 +85,7 @@ const Tab = TabNavigator(
   }
 );
 const Navigator = StackNavigator({
+ // Splash:{screen:SplashView},
   Tab: { screen: Tab },
   Topic: { screen: TopicView },
   ArticalList: { screen: ArticalListView },

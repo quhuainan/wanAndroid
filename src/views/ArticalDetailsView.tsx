@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#F5FCFF",
   },
   welcome: {
     height: DimenUtlis.height,
@@ -26,25 +26,30 @@ const styles = StyleSheet.create({
 });
 
 export default class ArticalDetailsView extends React.Component<any, any> {
-  static navigationOptions = ({ navigation }: any) => {
-    let { params } = navigation.state;
-    return {
-      title: params.title,
-      headerRight: (
-        <View style={{ flexDirection: "row", marginRight: 8 }}>
-          <TouchableOpacity
-            style={{ marginRight: 8 }}
-            onPress={() => {
-              Alert.alert("点击更多菜单");
-            }}
-          >
-            <Icon name="more-vert" size={24} color="white" />
-          </TouchableOpacity>
-        </View>
-      ),
-      headerStyle: { backgroundColor: Color.primary }
-    };
-  };
+  static navigationOptions = ({ navigations }: any) => ({
+    header: () => {
+      visible: false;
+    }
+  });
+  // static navigationOptions = ({ navigation }: any) => {
+  //   let { params } = navigation.state;
+  //   return {
+  //     title: params.title,
+  //     headerRight: (
+  //       <View style={{ flexDirection: "row", marginRight: 8 }}>
+  //         <TouchableOpacity
+  //           style={{ marginRight: 8 }}
+  //           onPress={() => {
+  //             Alert.alert("点击更多菜单");
+  //           }}
+  //         >
+  //           <Icon name="more-vert" size={24} color="white" />
+  //         </TouchableOpacity>
+  //       </View>
+  //     ),
+  //     headerStyle: { backgroundColor: Color.primary }
+  //   };
+  // };
   render() {
     let { link, title } = this.props.navigation.state.params;
     return (
